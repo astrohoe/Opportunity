@@ -1,0 +1,8 @@
+# Visual Studio
+.vs
+
+# Executable
+x64
+
+# Build
+Opportunity/x64
