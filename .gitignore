@@ -1,7 +1,5 @@
 # Visual Studio
 .vs
-.vcxproj
-.vcxproj.*
 
 # Executable
 x64
