@@ -145,10 +145,24 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glm::vec3 lightColor;
+		lightColor.x = sin(glfwGetTime() * 2.0f);
+		lightColor.y = sin(glfwGetTime() * 0.7f);
+		lightColor.z = sin(glfwGetTime() * 1.3f);
+
+		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+
 		containerShader.use();
-		containerShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
 		containerShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		containerShader.setVec3("viewPos", camera.Position);
+		containerShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+		containerShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		containerShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		containerShader.setFloat("material.shininess", 32.0f);
+		containerShader.setVec3("light.ambient", ambientColor);
+		containerShader.setVec3("light.diffuse", diffuseColor);
+		containerShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
 		glm::mat4 view = camera.GetViewMatrix();
 		containerShader.setMat4("view", view);
