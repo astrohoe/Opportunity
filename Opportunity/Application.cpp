@@ -122,6 +122,13 @@ int main()
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	glm::vec3 pointLightPositions[] = {
+		glm::vec3(0.7f,  0.2f,  2.0f),
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f,  2.0f, -12.0f),
+		glm::vec3(0.0f,  0.0f, -3.0f)
+	};
+
 	// Vertex buffer object
 	unsigned int vbo, vao;
 	glGenVertexArrays(1, &vao);
@@ -165,19 +172,58 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// Container setters
 		containerShader.use();
 		containerShader.setVec3("viewPos", camera.Position);
-		containerShader.setVec3("light.direction", camera.Front);
 		containerShader.setFloat("material.shininess", 32.0f);
-		containerShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-		containerShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
-		containerShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-		containerShader.setVec3("light.position", camera.Position);
-		containerShader.setFloat("light.constant", 1.0f);
-		containerShader.setFloat("light.linear", 0.09f);
-		containerShader.setFloat("light.quadratic", 0.032f);
-		containerShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-		containerShader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+		// Direction light setters
+		containerShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+		containerShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+		containerShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+		containerShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+		// Point light 1 setters
+		containerShader.setVec3("pointLights[0].position", pointLightPositions[0]);
+		containerShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+		containerShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+		containerShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+		containerShader.setFloat("pointLights[0].constant", 1.0f);
+		containerShader.setFloat("pointLights[0].linear", 0.09f);
+		containerShader.setFloat("pointLights[0].quadratic", 0.032f);
+		// Point light 2 setters
+		containerShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+		containerShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+		containerShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+		containerShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+		containerShader.setFloat("pointLights[1].constant", 1.0f);
+		containerShader.setFloat("pointLights[1].linear", 0.09f);
+		containerShader.setFloat("pointLights[1].quadratic", 0.032f);
+		// Point light 3 setters
+		containerShader.setVec3("pointLights[2].position", pointLightPositions[2]);
+		containerShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+		containerShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+		containerShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+		containerShader.setFloat("pointLights[2].constant", 1.0f);
+		containerShader.setFloat("pointLights[2].linear", 0.09f);
+		containerShader.setFloat("pointLights[2].quadratic", 0.032f);
+		// Point light 4 setters
+		containerShader.setVec3("pointLights[3].position", pointLightPositions[3]);
+		containerShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+		containerShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+		containerShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+		containerShader.setFloat("pointLights[3].constant", 1.0f);
+		containerShader.setFloat("pointLights[3].linear", 0.09f);
+		containerShader.setFloat("pointLights[3].quadratic", 0.032f);
+		// Spotlight setters
+		containerShader.setVec3("spotLight.position", camera.Position);
+		containerShader.setVec3("spotLight.direction", camera.Front);
+		containerShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+		containerShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+		containerShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+		containerShader.setFloat("spotLight.constant", 1.0f);
+		containerShader.setFloat("spotLight.linear", 0.09f);
+		containerShader.setFloat("spotLight.quadratic", 0.032f);
+		containerShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+		containerShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
 		glm::mat4 view = camera.GetViewMatrix();
 		containerShader.setMat4("view", view);
@@ -203,16 +249,18 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		/*lightShader.use();
+		glBindVertexArray(lightVao);
+		lightShader.use();
 		lightShader.setMat4("projection", projection);
 		lightShader.setMat4("view", view);
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f));
-		lightShader.setMat4("model", model);
-
-		glBindVertexArray(lightVao);
-		glDrawArrays(GL_TRIANGLES, 0, 36);*/
+		for (unsigned int i = 0; i < 4; ++i)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, pointLightPositions[i]);
+			model = glm::scale(model, glm::vec3(0.2f));
+			lightShader.setMat4("model", model);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
