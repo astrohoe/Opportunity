@@ -167,14 +167,17 @@ int main()
 
 		containerShader.use();
 		containerShader.setVec3("viewPos", camera.Position);
+		containerShader.setVec3("light.direction", camera.Front);
 		containerShader.setFloat("material.shininess", 32.0f);
 		containerShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
 		containerShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
 		containerShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-		containerShader.setVec3("light.position", lightPos);
+		containerShader.setVec3("light.position", camera.Position);
 		containerShader.setFloat("light.constant", 1.0f);
 		containerShader.setFloat("light.linear", 0.09f);
 		containerShader.setFloat("light.quadratic", 0.032f);
+		containerShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+		containerShader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
 
 		glm::mat4 view = camera.GetViewMatrix();
 		containerShader.setMat4("view", view);
@@ -200,7 +203,7 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		lightShader.use();
+		/*lightShader.use();
 		lightShader.setMat4("projection", projection);
 		lightShader.setMat4("view", view);
 		glm::mat4 model = glm::mat4(1.0f);
@@ -209,7 +212,7 @@ int main()
 		lightShader.setMat4("model", model);
 
 		glBindVertexArray(lightVao);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
