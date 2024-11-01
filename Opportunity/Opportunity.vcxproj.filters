@@ -51,7 +51,5 @@
   <ItemGroup>
     <None Include="Vertex.shader" />
     <None Include="Fragment.shader" />
-    <None Include="VLighting.shader" />
-    <None Include="FLighting.shader" />
   </ItemGroup>
 </Project>
