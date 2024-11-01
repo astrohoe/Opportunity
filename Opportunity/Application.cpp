@@ -6,6 +6,7 @@
 #include <gtc/type_ptr.hpp>
 #include "Shader.h"
 #include "Camera.h"
+#include "Mesh.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 

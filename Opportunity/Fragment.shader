@@ -4,6 +4,12 @@ struct Material {
     sampler2D diffuse;
     sampler2D specular;
     float shininess;
+
+	uniform sampler2D texture_diffuse1;
+	uniform sampler2D texture_diffuse2;
+	uniform sampler2D texture_diffuse3;
+	uniform sampler2D texture_specular1;
+	uniform sampler2D texture_specular2;
 }; 
 
 struct DirLight {
@@ -99,7 +105,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
 
 	vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
-	vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
+	vec3 diffuse = normalize(light.diffuse) * diff * vec3(texture(material.diffuse, TexCoords));
 	vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
 
 	ambient  *= attenuation; 
